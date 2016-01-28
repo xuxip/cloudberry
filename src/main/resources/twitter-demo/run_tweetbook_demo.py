@@ -48,7 +48,7 @@ def build_response(endpoint, data):
             if not chunk: break
             urlresult += chunk
         # Create JSON dump of resulting response
-        possibleMultiResults = '[' + urlresult.replace('\n ]\n[', '\n ],\n[') + ']'
+        possibleMultiResults = '[' + urlresult.replace(' ]\n[', ' ],\n[') + ']'
 
         return dumps(dict(results=loads(possibleMultiResults)))
 
@@ -91,4 +91,4 @@ def run_asterix_ddl():
 def run_asterix_update():
     return (build_response("update", dict(request.query)))
 
-run(host='0.0.0.0', port=8080, debug=True)
+run(host='0.0.0.0', port=80, debug=True)
