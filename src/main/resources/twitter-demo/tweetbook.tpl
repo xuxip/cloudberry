@@ -65,15 +65,14 @@
 
         #input {
             position: absolute;
-            left: 24%;
+            left: 27%;
             top: 2%;
-            width: 52%;
+            width: 50%;
         }
 
         #input-group {
             position: relative;
-            width: 65%;
-            margin-bottom:7px;
+            width: 80%;
         }
 
         .info {
@@ -122,23 +121,12 @@
             padding-left: 0;
             padding-right: 0;
         }
-        #logo{
-            display: inline-block;
-            margin-right: 10px;
-            color: #428bca;
-            font-family: 'Raleway',sans-serif;
-            font-size: 27px;
-            font-weight: 600;
-            line-height: 42px;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
 <div id='map'></div>
 <div id='input'>
     <form class="form-inline" id="input-form">
-        <div id="logo">Cloudberry</div>
         <div class="form-group" id="input-group">
             <label class="sr-only">Key words</label>
             <input type="text" class="form-control " id="keyword-textbox" placeholder="Search keywords, e.g. 'zika'">
@@ -153,7 +141,7 @@
             <li role="presentation"><a href="#hashtag" data-toggle="tab"><i class="fa fa-hashtag fa-2x" ></i></a></li>
             <li role="presentation"><a href="#tweet" data-toggle="tab"><i class="fa fa-twitter fa-2x" ></i></a></li>
             <li role="presentation"><a href="#aql" data-toggle="tab"><i class="fa fa-code fa-2x"></i></a></li>
-            <li role="presentation" class="active"><a href="#about" data-toggle="tab"><i class="fa fa-cog fa-2x"></i></a></li>
+            <li role="presentation" class="active"><a href="#about" data-toggle="tab"><i class="fa fa-info-circle fa-2x"></i></a></li>
         </ul>
     </div>
     <div class="col-xs-10">
