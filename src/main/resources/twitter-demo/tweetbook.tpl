@@ -141,7 +141,7 @@
         <div id="logo">Cloudberry</div>
         <div class="form-group" id="input-group">
             <label class="sr-only">Key words</label>
-            <input type="text" class="form-control " id="keyword-textbox" placeholder="Type keywords here, e.g. 'trump'">
+            <input type="text" class="form-control " id="keyword-textbox" placeholder="Search keywords, e.g. 'zika'">
         </div>
         <button type="button" class="btn btn-primary" id="submit-button" style="margin-bottom: 7px">Submit</button>
     </form>
@@ -193,7 +193,7 @@
                     <li>Total data size: 17G bytes</li>
                     <li><a href="https://github.com/ISG-ICS/cloudberry">Source code</a></li>
                 </ul>
-                <p>The backend is running the big data management system <b>Apache AsterixDB</b> to support large compute clusters. For questions and comments, please contact <b>cloudberry@ics.uci.edu</b></p>
+                <p>The backend is running the big data management system <b><a href="http://asterixdb.apache.org/">Apache AsterixDB</a></b> to support large compute clusters. For questions and comments, please contact <b><a href="mailto:jianfenj@ics.uci.edu">jianfenj@ics.uci.edu</a></b></p>
             </div>
         </div>
     </div>

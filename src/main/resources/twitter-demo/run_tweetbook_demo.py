@@ -71,6 +71,9 @@ def build_response(endpoint, data):
         elif hasattr(e, 'code'):
             print 'The server couldn\'t fulfill the request.'
             print 'Error code: ', e.code
+        pass
+    except Exception:
+        pass
 
 # API Endpoints
 @route('/query')
