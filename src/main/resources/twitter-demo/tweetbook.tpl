@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset='utf-8'/>
-    <title>ASTERIX Demo</title>
+    <title>Cloudberry: Interactive Analytics and Visualization on Large Data Sets</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.14.0/mapbox-gl.css' rel='stylesheet'/>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -181,7 +181,7 @@
                     <li>Total data size: 17G bytes</li>
                     <li><a href="https://github.com/ISG-ICS/cloudberry">Source code</a></li>
                 </ul>
-                <p>The backend is running the big data management system <b><a href="http://asterixdb.apache.org/">Apache AsterixDB</a></b> to support large compute clusters. For questions and comments, please contact <b><a href="mailto:jianfenj@ics.uci.edu">jianfenj@ics.uci.edu</a></b></p>
+                <p>The backend is running the big data management system <b><a href="http://asterixdb.apache.org/">Apache AsterixDB</a></b> to support large compute clusters. For questions and comments, please contact <b><a href="mailto:&#105;&#099;&#115;&#045;&#099;&#108;&#111;&#117;&#100;&#098;&#101;&#114;&#114;&#121;&#064;&#117;&#099;&#105;&#046;&#101;&#100;&#117;">&#105;&#099;&#115;&#045;&#099;&#108;&#111;&#117;&#100;&#098;&#101;&#114;&#114;&#121;&#064;&#117;&#099;&#105;&#046;&#101;&#100;&#117;</a></b></p>
             </div>
         </div>
     </div>
