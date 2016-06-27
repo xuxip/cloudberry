@@ -13,7 +13,7 @@ import com.typesafe.config.ConfigFactory
   * Created by ashka on 6/21/2016.
   */
 object CrawlerDriver extends App{
-  val configPath = "C:\\Users\\ashka\\IdeaProjects\\cloudberry\\noah\\src\\main\\resources\\crawler\\promedmail.conf"
+  val configPath = "IdeaProjects\\cloudberry\\noah\\src\\main\\resources\\crawler\\promedmail.conf"
   val conf = ConfigFactory.parseFile(new File(configPath))
   val URL = conf.getString("crawljax.url")
   val WAR = conf.getInt("crawljax.waitafterreload")
