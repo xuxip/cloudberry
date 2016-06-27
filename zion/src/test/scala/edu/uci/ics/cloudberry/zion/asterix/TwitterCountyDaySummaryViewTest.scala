@@ -20,21 +20,22 @@ class TwitterCountyDaySummaryViewTest extends TestkitExample with SpecificationL
   sequential
 
   val queryUpdateTemp: DBQuery = new DBQuery(SummaryLevel, Seq.empty)
-  val viewRecord = ViewMetaRecord("twitter", "rain", SummaryLevel, startTime, lastVisitTime, lastUpdateTime, visitTimes, updateCycle)
+  val viewRecord = ViewMetaRecord("twitter", "ds_tweet_", SummaryLevel, startTime, lastVisitTime, lastUpdateTime, visitTimes, updateCycle)
   val fViewRecord = Future(viewRecord)
 
   "TwitterCountyDaySummaryView" should {
 
-    val probeSender = new TestProbe(system)
-    val probeSource = new TestProbe(system)
-
     def runSummaryView(dbQuery: DBQuery, aql2json: Map[String,JsValue], result: SpatialTimeCount): MatchResult[Any] = {
+
+      val probeSender = new TestProbe(system)
+      val probeSource = new TestProbe(system)
 
       withQueryAQLConn(aql2json) { conn =>
         val viewActor = system.actorOf(Props(classOf[TwitterCountyDaySummaryView],
                                              conn, queryUpdateTemp, probeSource.ref, fViewRecord, cloudberryConfig, ec))
         probeSender.send(viewActor, dbQuery)
-        val actualMessage = probeSender.receiveOne(500 millis)
+        // for some reason, the first Actor request is very slow.
+        val actualMessage = probeSender.receiveOne(5 seconds)
         probeSource.expectNoMsg()
         actualMessage must_== result
       }
@@ -47,6 +48,9 @@ class TwitterCountyDaySummaryViewTest extends TestkitExample with SpecificationL
       runSummaryView(byCountyMonthQuery, byCountyMonthAQLMap, byCountyMonthResult)
     }
     "split the query to ask the source if can not answer by view only" in {
+
+      val probeSender = new TestProbe(system)
+      val probeSource = new TestProbe(system)
       withQueryAQLConn(partialQueryAQL2JsonMap) { conn =>
         val viewActor = system.actorOf(Props(classOf[TwitterCountyDaySummaryView],
                                              conn, queryUpdateTemp, probeSource.ref, fViewRecord, cloudberryConfig, ec))
@@ -58,6 +62,9 @@ class TwitterCountyDaySummaryViewTest extends TestkitExample with SpecificationL
       }
     }
     "ask the source directly if the summary level does not fit" in {
+
+      val probeSender = new TestProbe(system)
+      val probeSource = new TestProbe(system)
       val conn: AsterixConnection = null // it shall not be touched
       val viewActor = system.actorOf(Props(classOf[TwitterCountyDaySummaryView],
                                            conn, queryUpdateTemp, probeSource.ref, fViewRecord, cloudberryConfig, ec))
@@ -68,6 +75,8 @@ class TwitterCountyDaySummaryViewTest extends TestkitExample with SpecificationL
       actualMessage must_== byCountyMonthResult
     }
     "update the views if receives the update msg" in {
+
+      val probeSource = new TestProbe(system)
       withSucceedUpdateAQLConn { conn =>
         val proxy = new TestProbe(system)
         val parent = system.actorOf(Props(new Actor {
@@ -90,14 +99,14 @@ class TwitterCountyDaySummaryViewTest extends TestkitExample with SpecificationL
   "TwitterCountyDaySummaryView#generateAQL" should {
     "as expected" in {
       val dbQuery = new DBQuery(new SummaryLevel(SpatialLevels.State, TimeLevels.Day), Seq(idPredicate, keywordPredicate2, timePredicate2))
-      TwitterCountyDaySummaryView.generateByMapAQL(dbQuery).trim must_==
+      val name = "ds_tweet_"
+      TwitterCountyDaySummaryView.generateByMapAQL(name, dbQuery).trim must_==
         """
           |use dataverse twitter
           |let $common := (
           |for $t in dataset ds_tweet_
           |
-          |let $set := [ 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50 ]
-          |for $sid in $set
+          |for $sid in [ 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50 ]
           |where $t.stateID = $sid
           |
           |
@@ -124,14 +133,13 @@ class TwitterCountyDaySummaryViewTest extends TestkitExample with SpecificationL
           |return $map;
           | """.stripMargin.trim
 
-      TwitterCountyDaySummaryView.generateByTimeAQL(dbQuery).trim must_== (
+      TwitterCountyDaySummaryView.generateByTimeAQL(name, dbQuery).trim must_== (
         """
           |use dataverse twitter
           |let $common := (
           |for $t in dataset ds_tweet_
           |
-          |let $set := [ 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50 ]
-          |for $sid in $set
+          |for $sid in [ 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50 ]
           |where $t.stateID = $sid
           |
           |
@@ -158,14 +166,13 @@ class TwitterCountyDaySummaryViewTest extends TestkitExample with SpecificationL
           |return $time
           | """.stripMargin.trim)
 
-      TwitterCountyDaySummaryView.generateByHashtagAQL(dbQuery).trim must_== (
+      TwitterCountyDaySummaryView.generateByHashtagAQL(name, dbQuery).trim must_== (
         """
           |use dataverse twitter
           |let $common := (
           |for $t in dataset ds_tweet_
           |
-          |let $set := [ 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50 ]
-          |for $sid in $set
+          |for $sid in [ 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50 ]
           |where $t.stateID = $sid
           |
           |
