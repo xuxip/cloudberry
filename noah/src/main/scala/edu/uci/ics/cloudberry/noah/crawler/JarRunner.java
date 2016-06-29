@@ -96,43 +96,24 @@ public class JarRunner {
 //		builder.crawlRules().addCrawlCondition("proquest only", new UrlCondition("http://search.proquest.com/"));
 		builder.crawlRules().insertRandomDataInInputForms(false);
 
-		/*insert 'zika' to the search fielWebDriverBackedEmbeddedBrowserd*/
+
+		/*insert 'zika' to the search field*/
 		InputSpecification input = new InputSpecification();
 		input.field("searchTerm").setValue("zika");
 		builder.crawlRules().setInputSpec(input);
 
+
 		/*click search button*/
 //		builder.crawlRules().click("span").withAttribute("class", "input-group-btn");
 		builder.crawlRules().click("a").withAttribute("id", "expandedSearch");
-
-//		builder.crawlRules().dontClick("div").withAttribute("class", "navbar navbar-inverse");
-//		builder.crawlRules().dontClick("div").withAttribute("class", "pull-left");
-//		builder.crawlRules().dontClick("div").withAttribute("class", "pull-right");
-//		builder.crawlRules().dontClick("div").withAttribute("id", "explore_subjects_Background");
-//		builder.crawlRules().dontClick("div").withAttribute("id", "footer-wrapper");
-//		builder.crawlRules().dontClick("div").withAttribute("class", "row");
-
-//		builder.setMaximumDepth(4);
-
-//		builder.crawlRules().dontClick("div").withAttribute("class", "cd-panel-container");
-//		builder.crawlRules().dontClick("div").withAttribute("class", "t-zone");
-//		builder.crawlRules().dontClick("div").withAttribute("class", "body");
-//		builder.crawlRules().dontClick("div").withAttribute("class", "clearfix resultsHeaderBar");
-//		builder.crawlRules().dontClick("div").withAttribute("class", "addItemsWrapper clearfix");
-//		builder.crawlRules().dontClick("li").withAttribute("id", "tab-AbstractRecord-null");
-
-
+ 		builder.crawlRules().crawlFrames(true);
 
 		/*crawl results*/
-		builder.crawlRules().click("a").withAttribute("id","citationDocTitleLink");
+	 builder.crawlRules().click("a").withAttribute("id","citationDocTitleLink");
+
 		builder.crawlRules().click("a").withAttribute("class", "arrows_base_sprite arrow_next");
 
-
-
-//		builder.crawlRules().dontClick("div").withAttribute("id","header");
-//		builder.crawlRules().dontClick("div").withAttribute("class","navbar");
-//		builder.crawlRules().dontClick("table").withAttribute("class","region_title");
-//		builder.crawlRules().dontClick("div").withAttribute("class","announcements");
+		builder.setMaximumDepth(4);
 
 		if (options.specifiesBrowser()) {
 			browser = options.getSpecifiedBrowser();
